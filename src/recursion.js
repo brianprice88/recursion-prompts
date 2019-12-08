@@ -33,6 +33,12 @@ var arraySum = function(array) {
     return sum;
 };
 
+var arraySum = function(array) {
+return array.reduce(function(sum, element) {
+  if (Array.isArray(element)) {return sum += arraySum(element)}	
+  else {return sum += element}
+}, 0)}
+
 // 4. Check if a number is even.
 var isEven = function(n) {
     if (Math.abs(n) === 2) {return true}
@@ -105,9 +111,6 @@ var palindrome = function(string) {
         return palindrome(string.slice(firstCharacter,lastCharacter))
     }
     else {return false}
-    //   var reversed = '';
-    // if (string.length !== 0) {reversed += string[string.length-1] + palindrome(string.slice(0, string.length-1))};
-    // return reversed.toUpperCase() === string.toUpperCase()
 };
 
 // 11. Write a function that returns the remainder of x divided by y without using the
@@ -116,11 +119,54 @@ var palindrome = function(string) {
 // modulo(17,5) // 2
 // modulo(22,6) // 4
 var modulo = function(x, y) {
+	if (x === 0 && y !== 0) {return 0};
+	if (y === 0) {return NaN};
+	if (x > 0 && y > 0) {
+		if (y > x) {return x}
+		else if (x === y) {return 0}
+		else if ((x-y) < y) {return x-y} 
+		else {return modulo((x-y), y)}
+	}
+    if (x < 0 && y < 0) {
+    	if (y < x) {return x}
+    	else if (x === y) {return 0}
+    	else if ((-x+y) < -y) {return -(-x+y)}
+    	else {return modulo((x+y), y)}
+    }
+	if (x > 0 && y < 0) {
+		if (y < -x) {return x}
+		else if (y === -x) {return 0}
+		else if ((x+y) < (-y)) {return -y}
+		else {return modulo((x+y), y)}
+	}
+	if (x < 0 && y > 0) {
+		if (-x < y) {return x}
+		else if (-x === y) {return 0}
+		else if ((-x-y) < y) {return x+y}
+		else {return modulo((x+y), y)}
+	}
 };
 
 // 12. Write a function that multiplies two numbers without using the * operator or
 // Math methods.
 var multiply = function(x, y) {
+	if (x=== 0 || y === 0) {return 0};
+	if (x === 1) {return y};
+	if (x === -1) {return -y};
+	if (y === 1) {return x};
+	if (y === -1) {return -x};
+	if (x > 1 && y > 1) {
+	  return x + multiply(x, y-1)
+	}
+	if (x < -1 && y < -1) {
+	  return -x + multiply(x, y+1)
+	}
+	if (x > 1 && y < -1) {
+	  return y + multiply(x-1, y)
+	}
+	if (x < -1 && y > 1) {
+	  return x - multiply(x, -y+1)
+	}
 };
 
 // 13. Write a function that divides two numbers without using the / operator or
